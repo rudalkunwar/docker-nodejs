@@ -1,6 +1,9 @@
-const printMyName = require("./src/main");
 const express = require("express");
 
 const app = express();
 
-printMyName("Rudal");
+app.listen(8000);
+
+app.get("/", function (req, res) {
+  res.send("Hello Rudal!");
+});
