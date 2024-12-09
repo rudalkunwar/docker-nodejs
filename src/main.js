@@ -1,1 +1,3 @@
-const myFun = () => {};
+const myFun = () => {
+  console.log("Heyyyyyyyyy");
+};

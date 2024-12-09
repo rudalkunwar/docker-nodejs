@@ -4,6 +4,6 @@
     "nodemon": "^3.1.7"
   },
   "scripts": {
-    "run":"nodemon app.js"
+    "start":"nodemon app.js"
   }
 }
