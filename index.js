@@ -7,5 +7,5 @@ app.listen(5000, () => {
 });
 
 app.get("/", function (req, res) {
-  res.send("Hello Rudal!");
+  res.send("Hello Rudal! , This is the sucessfull launch of the docker container.");
 });
