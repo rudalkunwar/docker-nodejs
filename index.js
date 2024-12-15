@@ -1,11 +1,23 @@
 const express = require("express");
-
+const pdfUploadRoute = require("./src/routes/pdfUploadRoute");
 const app = express();
+const port = 3500;
 
-app.listen(5000, () => {
-  console.log("Node app is running at the server : 5000");
+// Middleware to parse JSON data (if you're sending JSON)
+app.use(express.json());
+
+// Middleware to parse URL-encoded form data (e.g., form submissions)
+app.use(express.urlencoded({ extended: true }));
+
+// Test route
+app.get("/", (req, res) => {
+  res.send("successfully!");
 });
 
-app.get("/", function (req, res) {
-  res.send("Hello Rudal! , This is the sucessfull launch of the docker container.");
+// Use the pdfUploadRoute for handling the PDF upload
+app.use(pdfUploadRoute);
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Node app is running at port: ${port}`);
 });
