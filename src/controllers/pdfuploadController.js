@@ -1,31 +1,48 @@
-// pdfUploadController.js
-const { pdfUpload } = require("../middleware/pdfUpload"); // Adjust the path as needed
+const cloudinary = require("../../config/cloudinaryConfig"); // Ensure your Cloudinary configuration is correct
+const streamifier = require("streamifier"); // To convert the buffer to a readable stream
 
-// Controller function for handling PDF upload
 const uploadPDF = async (req, res) => {
   try {
-    // Check if a file is uploaded
+    // Check if file is present
     if (!req.file) {
-      return res.status(400).send("No file uploaded.");
+      return res.status(400).json({ error: "No file uploaded" });
     }
 
-    // Call the pdfUpload function to upload the file to Cloudinary
-    const fileUrl = await pdfUpload(req.file);
+    console.log("Received file:", req.file);
 
-    console.log("File uploaded to Cloudinary:", fileUrl);
+    // Generate a unique public_id for Cloudinary
+    const currentDateTime = new Date().toISOString().replace(/[-:.]/g, ""); // Get current date and time
+    const publicId = `rudal_uploads/${currentDateTime}_${req.file.originalname}`;
 
-    // Send response with the uploaded file URL
-    res.status(200).send({
-      message: "PDF uploaded successfully!",
-      fileUrl: fileUrl,
-    });
-    
+    // Prepare upload options for Cloudinary
+    const uploadOptions = {
+      public_id: publicId,
+      resource_type: "raw", // Since it's a PDF, we specify 'raw'
+    };
+
+    // Create a readable stream from the buffer
+    const bufferStream = streamifier.createReadStream(req.file.buffer);
+
+    // Upload the file to Cloudinary using upload_stream
+    bufferStream.pipe(
+      cloudinary.uploader.upload_stream(uploadOptions, (error, result) => {
+        if (error) {
+          console.error("Error uploading file:", error);
+          return res.status(500).json({ error: "Error uploading file." });
+        }
+
+        console.log("File uploaded to Cloudinary:", result);
+        // Send back the file URL from Cloudinary
+        res.status(200).json({
+          message: "PDF uploaded successfully!",
+          fileUrl: result.secure_url,
+        });
+      })
+    );
   } catch (error) {
     console.error("Error uploading file:", error);
-    res.status(500).send("Error uploading file.");
+    res.status(500).json({ error: "Error uploading file." });
   }
 };
 
-module.exports = {
-  uploadPDF,
-};
+module.exports = { uploadPDF };
