@@ -1,5 +1,5 @@
-const { sendMessage } = require("../services/messenger");
-const { VERIFY_TOKEN } = require("../config/config");
+const { sendMessage } = require(".././services/messenger");
+const { VERIFY_TOKEN } = require("../../config/config");
 
 // Webhook verification logic (GET request)
 exports.verifyWebhook = (req, res) => {

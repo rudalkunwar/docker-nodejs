@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { PAGE_ACCESS_TOKEN } = require("../config/config");
+const { PAGE_ACCESS_TOKEN } = require("../../config/config");
 
 // Send a message to the user using the Send API
 exports.sendMessage = (recipientId, messageText) => {
