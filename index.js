@@ -14,6 +14,15 @@ app.get("/", (req, res) => {
   res.send("successfully!");
 });
 
+// Middleware to parse incoming JSON data
+app.use(bodyParser.json());
+
+// Webhook verification route (GET)
+app.get("/webhook", verifyWebhook);
+
+// Webhook event handler (POST)
+app.post("/webhook", handleWebhookEvent);
+
 // Use the pdfUploadRoute for handling the PDF upload
 app.use(pdfUploadRoute);
 
