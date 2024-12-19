@@ -1,5 +1,5 @@
 // netlify/functions/webhook.js
-const { handleWebhook } = require("../controllers/webhook");
+const { handleWebhook } = require("../../src/controllers/webhook");
 
 exports.handler = async (event, context) => {
   if (event.httpMethod === "POST") {
