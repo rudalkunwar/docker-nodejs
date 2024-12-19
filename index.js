@@ -26,7 +26,7 @@ app.get("/webhook", verifyWebhook);
 app.post("/webhook", handleWebhookEvent);
 
 // Use the pdfUploadRoute for handling the PDF upload
-app.use(pdfUploadRoute);
+// app.use(pdfUploadRoute);
 
 // Start the server
 app.listen(port, () => {
